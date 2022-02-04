@@ -96,7 +96,6 @@ namespace UTTT.Ejemplo.Persona
         {
             try
             {
-                throw new Exception("He Creado un error de forma Deliberada XD");
                 if (!Page.IsValid)
                 {
                     return;

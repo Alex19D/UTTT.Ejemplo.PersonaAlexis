@@ -86,7 +86,6 @@
             <asp:TextBox ID="txtClaveUnica" runat="server"
                 Width="249px" ViewStateMode="Disabled"
                 onkeypress="return validaNumeros(event);" maxlength="3"
-                required title="1 a 3 es la longitud que se permite ingresar"
                 ></asp:TextBox>
 
             <asp:RangeValidator ID="rvClaveUnica" runat="server" ControlToValidate="txtClaveUnica" ErrorMessage="*La clave Unica debe de estar entre 100 y 999" MaximumValue="999" MinimumValue="100" Type="Integer"></asp:RangeValidator>
@@ -147,7 +146,7 @@
         <asp:Button ID="btnAceptar" runat="server" Text="Aceptar"
             OnClick="btnAceptar_Click" ViewStateMode="Disabled" />
             &nbsp;&nbsp;&nbsp;
-        <asp:Button ID="btnCancelar" runat="server" Text="Cancelar"
+        <asp:Button ID="btnCancelar" runat="server" Text="Cancelar" CausesValidation="false"
             OnClick="btnCancelar_Click" ViewStateMode="Disabled" />
 
         </div>
