@@ -96,10 +96,6 @@ namespace UTTT.Ejemplo.Persona
         {
             try
             {
-                if (!Page.IsValid)
-                {
-                    return;
-                }
                 DataContext dcGuardar = new DcGeneralDataContext();
                 UTTT.Ejemplo.Linq.Data.Entity.Persona persona = new Linq.Data.Entity.Persona();
                 if (this.idPersona == 0)
@@ -113,7 +109,14 @@ namespace UTTT.Ejemplo.Persona
 
                     String mensaje = String.Empty;
                     //validacion de datos correctos desde codigo
-                    if(!this.validacion(persona, ref mensaje))
+
+                    if (this.ValidVacio(persona))
+                    {
+                        this.btnCancelar_Click(sender, e);
+                        return;
+                    }
+
+                    if (!this.validacion(persona, ref mensaje))
                     {
                         this.lblMensaje.Text = mensaje;
                         this.lblMensaje.Visible = true;
@@ -267,6 +270,58 @@ namespace UTTT.Ejemplo.Persona
 
         }
 
+        public bool ValidVacio(UTTT.Ejemplo.Linq.Data.Entity.Persona _persona)
+        {
+            bool x = true; ;
+            for (int i = 0; i < 6; i++)
+            {
+                switch (i)
+                {
+                    case 0:
+                        if (_persona.idCatSexo != -1)
+                        {
+                            x = false;
+                            i = 6;
+                        }
+                        break;
+                    case 1:
+                        if (!_persona.strClaveUnica.Equals(String.Empty))
+                        {
+                            x = false;
+                            i = 6;
+                        }
+                        break;
+                    case 2:
+                        if (!_persona.strNombre.Equals(String.Empty))
+                        {
+                            x = false;
+                            i = 6;
+                        }
+                        break;
+                    case 3:
+                        if (!_persona.strAPaterno.Equals(String.Empty))
+                        {
+                            x = false;
+                            i = 6;
+                        }
+                        break;
+                    case 4:
+                        if (!_persona.strAMaterno.Equals(String.Empty))
+                        {
+                            x = false;
+                            i = 6;
+                        }
+                        break;
+                    case 5:
+                        if (!_persona.strCurp.Equals(String.Empty))
+                        {
+                            x = false;
+                        }
+                        break;
+                }
+            }
+            return x;
+        }
 
     }
 }

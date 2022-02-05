@@ -75,7 +75,6 @@
                     Height="25px" Width="253px"
                     OnSelectedIndexChanged="ddlSexo_SelectedIndexChanged">
                 </asp:DropDownList>
-                <asp:RequiredFieldValidator ID="rfvSexo" runat="server" ControlToValidate="ddlSexo" ErrorMessage="*Sexo Obligatorio"></asp:RequiredFieldValidator>
             </div>
 
         </div>
@@ -90,8 +89,6 @@
 
             <asp:RangeValidator ID="rvClaveUnica" runat="server" ControlToValidate="txtClaveUnica" ErrorMessage="*La clave Unica debe de estar entre 100 y 999" MaximumValue="999" MinimumValue="100" Type="Integer"></asp:RangeValidator>
 
-            <asp:RequiredFieldValidator ID="rfvClaveUnica" runat="server" ControlToValidate="txtClaveUnica" ErrorMessage="*Clave Unica Obligatoria"></asp:RequiredFieldValidator>
-
         </div>
         <div>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -100,8 +97,6 @@
                 ID="txtNombre" runat="server" Width="249px" ViewStateMode="Disabled"
                 onkeypress="return validaLetras(event);"
                 ></asp:TextBox>
-
-            <asp:RequiredFieldValidator ID="rfvNombre" runat="server" ControlToValidate="txtNombre" ErrorMessage="*Nombre es obligatorio"></asp:RequiredFieldValidator>
 
             <asp:RegularExpressionValidator ID="revNombre" runat="server" ControlToValidate="txtNombre" ErrorMessage="*Ingrese un nombre Real" ValidationExpression="([A-Z])\w+"></asp:RegularExpressionValidator>
 
@@ -112,7 +107,6 @@
                 ID="txtAPaterno" runat="server" Width="249px" ViewStateMode="Disabled"
                 onkeypress="return validaLetras(event);"
                 ></asp:TextBox>
-            <asp:RequiredFieldValidator ID="rfvAPaterno" runat="server" ControlToValidate="txtAPaterno" ErrorMessage="*A paterno Obligatorio"></asp:RequiredFieldValidator>
             <asp:RegularExpressionValidator ID="revAPaterno" runat="server" ControlToValidate="txtAPaterno" ErrorMessage="*Ingrese Un Apellido Valido" ValidationExpression="([A-Z])\w+"></asp:RegularExpressionValidator>
         </div>
         <div>
@@ -123,8 +117,6 @@
                 ViewStateMode="Disabled"
                 onkeypress="return validaLetras(event);"
                 ></asp:TextBox>
-
-            <asp:RequiredFieldValidator ID="rfvAMAterno" runat="server" ControlToValidate="txtAMaterno" ErrorMessage="*A Materno Obligatorio"></asp:RequiredFieldValidator>
 
             <asp:RegularExpressionValidator ID="revAMaterno" runat="server" ControlToValidate="txtAMaterno" ErrorMessage="*Ingrese un Apellido Valido" ValidationExpression="([A-Z])\w+"></asp:RegularExpressionValidator>
 
@@ -138,7 +130,6 @@
                 onkeypress="return validaCurp(event);"
                 ></asp:TextBox>
 
-            <asp:RequiredFieldValidator ID="rfvCurp" runat="server" ControlToValidate="txtCurp" ErrorMessage="*CURP Oblogatoria"></asp:RequiredFieldValidator>
             <asp:RegularExpressionValidator ID="revCurp" runat="server" ControlToValidate="txtCurp" ErrorMessage="*La CURP es incorrecta" ValidationExpression="^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$"></asp:RegularExpressionValidator>
 
         </div>
