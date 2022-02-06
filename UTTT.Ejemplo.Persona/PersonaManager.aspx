@@ -98,7 +98,7 @@
                 onkeypress="return validaLetras(event);"
                 ></asp:TextBox>
 
-            <asp:RegularExpressionValidator ID="revNombre" runat="server" ControlToValidate="txtNombre" ErrorMessage="*Ingrese un nombre Real" ValidationExpression="([A-Z])\w+"></asp:RegularExpressionValidator>
+            <asp:RegularExpressionValidator ID="revNombre" runat="server" ControlToValidate="txtNombre" ErrorMessage="*El nombre debe comenzar en Mayusculas seguido de minusculas con un rango de 3-9 Letras" ValidationExpression="(([(Á,É,Í,Ó,Ú)(A-Z)])(([(a-z)(á,é,í,ó,ú)]){2,8}))"></asp:RegularExpressionValidator>
 
         </div>
         <div>
@@ -107,7 +107,7 @@
                 ID="txtAPaterno" runat="server" Width="249px" ViewStateMode="Disabled"
                 onkeypress="return validaLetras(event);"
                 ></asp:TextBox>
-            <asp:RegularExpressionValidator ID="revAPaterno" runat="server" ControlToValidate="txtAPaterno" ErrorMessage="*Ingrese Un Apellido Valido" ValidationExpression="([A-Z])\w+"></asp:RegularExpressionValidator>
+            <asp:RegularExpressionValidator ID="revAPaterno" runat="server" ControlToValidate="txtAPaterno" ErrorMessage="*El APaterno debe comenzar en Mayusculas seguido de minusculas con un rango de 5-12 Letras" ValidationExpression="(([(Á,É,Í,Ó,Ú)(A-Z)])(([(a-z)(á,é,í,ó,ú)]){4,11}))"></asp:RegularExpressionValidator>
         </div>
         <div>
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -118,7 +118,7 @@
                 onkeypress="return validaLetras(event);"
                 ></asp:TextBox>
 
-            <asp:RegularExpressionValidator ID="revAMaterno" runat="server" ControlToValidate="txtAMaterno" ErrorMessage="*Ingrese un Apellido Valido" ValidationExpression="([A-Z])\w+"></asp:RegularExpressionValidator>
+            <asp:RegularExpressionValidator ID="revAMaterno" runat="server" ControlToValidate="txtAMaterno" ErrorMessage="*El AMaterno debe comenzar en Mayusculas seguido de minusculas con un rango de 5-12 Letras" ValidationExpression="(([(Á,É,Í,Ó,Ú)(A-Z)])(([(a-z)(á,é,í,ó,ú)]){3,8}))"></asp:RegularExpressionValidator>
 
         </div>
         <div>
