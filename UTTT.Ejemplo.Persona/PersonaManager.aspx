@@ -118,7 +118,7 @@
                 onkeypress="return validaLetras(event);"
                 ></asp:TextBox>
 
-            <asp:RegularExpressionValidator ID="revAMaterno" runat="server" ControlToValidate="txtAMaterno" ErrorMessage="*El AMaterno debe comenzar en Mayusculas seguido de minusculas con un rango de 5-12 Letras" ValidationExpression="(([(Á,É,Í,Ó,Ú)(A-Z)])(([(a-z)(á,é,í,ó,ú)]){3,8}))"></asp:RegularExpressionValidator>
+            <asp:RegularExpressionValidator ID="revAMaterno" runat="server" ControlToValidate="txtAMaterno" ErrorMessage="*El AMaterno debe comenzar en Mayusculas seguido de minusculas con un rango de 5-12 Letras" ValidationExpression="(([(Á,É,Í,Ó,Ú)(A-Z)])(([(a-z)(á,é,í,ó,ú)]){4,11}))"></asp:RegularExpressionValidator>
 
         </div>
         <div>

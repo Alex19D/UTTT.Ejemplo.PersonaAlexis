@@ -131,13 +131,33 @@ namespace UTTT.Ejemplo.Persona
                 }
                 if (this.idPersona > 0)
                 {
+                    int x = -1;
+                    if (this.ddlSexo.Text != "")
+                    {
+                        x = int.Parse(this.ddlSexo.Text);
+                    }
                     persona = dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Persona>().First(c => c.id == idPersona);
                     persona.strClaveUnica = this.txtClaveUnica.Text.Trim();
                     persona.strNombre = this.txtNombre.Text.Trim();
                     persona.strAMaterno = this.txtAMaterno.Text.Trim();
                     persona.strAPaterno = this.txtAPaterno.Text.Trim();
                     persona.strCurp = this.txtCurp.Text.Trim();
-                    persona.idCatSexo = int.Parse(this.ddlSexo.Text);
+                    persona.idCatSexo = x;
+                    String mensaje = String.Empty;
+                    //validacion de datos correctos desde codigo
+
+                    if (this.ValidVacio(persona))
+                    {
+                        this.btnCancelar_Click(sender, e);
+                        return;
+                    }
+
+                    if (!this.validacion(persona, ref mensaje))
+                    {
+                        this.lblMensaje.Text = mensaje;
+                        this.lblMensaje.Visible = true;
+                        return;
+                    }
                     dcGuardar.SubmitChanges();
                     this.showMessage("El registro se edito correctamente.");
                     this.Response.Redirect("~/PersonaPrincipal.aspx", false);
@@ -207,6 +227,11 @@ namespace UTTT.Ejemplo.Persona
                 _mensaje = "Seleccione Masculino o Femenino";
                 return false;
             }
+            if (_persona.strClaveUnica.Equals(String.Empty))
+            {
+                _mensaje = "La Clave Unica esta Vacia";
+                return false;
+            }
             int i = 0;
             //Verificar si un texto es un número
             if (int.TryParse(_persona.strClaveUnica, out i) == false)
@@ -272,7 +297,7 @@ namespace UTTT.Ejemplo.Persona
 
         public bool ValidVacio(UTTT.Ejemplo.Linq.Data.Entity.Persona _persona)
         {
-            bool x = true; ;
+            bool x = true;
             for (int i = 0; i < 6; i++)
             {
                 switch (i)
