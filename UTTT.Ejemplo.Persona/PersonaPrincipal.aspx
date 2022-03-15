@@ -26,7 +26,6 @@
                 </p>
                 <br />
                 <p>
-
                     Nombre:&nbsp;&nbsp;&nbsp;&nbsp;
 
         <asp:TextBox ID="txtNombre" runat="server"  Width="177px"
