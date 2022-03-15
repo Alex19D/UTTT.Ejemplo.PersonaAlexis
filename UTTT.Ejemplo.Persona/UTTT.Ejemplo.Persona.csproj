@@ -48,6 +48,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AjaxControlToolkit, Version=20.1.0.0, Culture=neutral, PublicKeyToken=28f01b0e84b6d53e, processorArchitecture=MSIL">
+      <HintPath>..\packages\AjaxControlToolkit.20.1.0\lib\net40\AjaxControlToolkit.dll</HintPath>
+    </Reference>
     <Reference Include="EASendMail, Version=7.8.0.2, Culture=neutral, PublicKeyToken=88adb80ecd66540b, processorArchitecture=MSIL">
       <HintPath>..\packages\EASendMail.7.8.0.2\lib\net461\EASendMail.dll</HintPath>
     </Reference>

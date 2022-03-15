@@ -1,12 +1,10 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PersonaManager.aspx.cs" Inherits="UTTT.Ejemplo.Persona.PersonaManager" Debug="false" %>
-
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="AjaxToolkit" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
-    <script src="Scripts/jquery-1.4.1.min.js"></script>
-    <script src="Scripts/bootstrap.min.js"></script>
     <script type="text/javascript">
         function validaNumeros(evt) {
             var code = (evt.which) ? evt.which : evt.keyCode;
@@ -64,6 +62,8 @@
     </div>
     <section class="container-fluid">
         <form id="form1" runat="server">
+            <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="True">
+             </asp:ScriptManager>
             <div class="row">
                 <div class="col-6">
                     <center>
@@ -77,15 +77,22 @@
                 <div class="row">
                     <div class="col-2">Sexo:</div>
                     <div class="col-2">
-                        <asp:DropDownList
+                        <asp:UpdatePanel ID="UP" runat="server">
+                            <ContentTemplate>
+                                <asp:DropDownList
                             ID="ddlSexo" class="btn btn-outline-dark" runat="server"
                             Width="210px"
                             OnSelectedIndexChanged="ddlSexo_SelectedIndexChanged">
                         </asp:DropDownList>
+                            </ContentTemplate>
+                            <Triggers>
+                                <asp:AsyncPostBackTrigger ControlID="ddlSexo" EventName="SelectedIndexChanged"/>
+                            </Triggers>
+                        </asp:UpdatePanel>
                     </div>
-                    <div class="col-8"></div>
-
-
+                    <div class="col-12 col-xl-8">
+                        <p></p>
+                    </div>
                     <div class="col-2">Clave Unica </div>
                     <div class="col-2">
                         <asp:TextBox ID="txtClaveUnica" runat="server"
@@ -93,7 +100,7 @@
                             onkeypress="return validaNumeros(event);" MaxLength="3">
                         </asp:TextBox>
                     </div>
-                    <div class="col-8">
+                    <div class="col-12 col-xl-8">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <asp:RangeValidator
                             ID="rvClaveUnica" runat="server" ControlToValidate="txtClaveUnica" ErrorMessage="*La clave Unica debe de estar entre 100 y 999"
@@ -158,23 +165,41 @@
                             onkeypress="return validaCurp(event);">
                         </asp:TextBox>
                     </div>
-                    <div class="col-8">
+                    <div class="col-12 col-xl-8">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <asp:RegularExpressionValidator
                             ID="revCurp" runat="server" ControlToValidate="txtCurp" ErrorMessage="*La CURP es incorrecta"
                             ValidationExpression="^([A-Z][AEIOUX][A-Z]{2}\d{2}(?:0[1-9]|1[0-2])(?:0[1-9]|[12]\d|3[01])[HM](?:AS|B[CS]|C[CLMSH]|D[FG]|G[TR]|HG|JC|M[CNS]|N[ETL]|OC|PL|Q[TR]|S[PLR]|T[CSL]|VZ|YN|ZS)[B-DF-HJ-NP-TV-Z]{3}[A-Z\d])(\d)$">
                         </asp:RegularExpressionValidator>
                     </div>
+
+
+
+                    <div class="col-2">Fecha de Nacimiento: </div>
+                    <div class="col-2">
+                            <asp:TextBox ID="txtFechaNacimiento" runat="server" Width="210px" ></asp:TextBox>
+                    </div>
+                    <div class=" col-5 col-lg-3 col-xl-1">
+                        <center>
+                        <asp:ImageButton ID="imgFD" ImageUrl="https://img2.freepng.es/20181127/wkw/kisspng-computer-icons-calendar-date-clip-art-portable-net-annual-calendar-page-svg-png-icon-free-download-5bfdc582e1dc47.7282942115433578269251.jpg"
+                            Width="30px" Height="30px"
+                            ImageAlign="Bottom" runat="server" CausesValidation="false" />
+                        <ajaxToolkit:CalendarExtender ID="Calendar1" runat="server" Format="MM/dd/yyyy" PopupPosition="BottomRight"
+                            BehaviorID="Calendar1" PopupButtonID="imgFD" TargetControlID="txtFechaNacimiento"></ajaxToolkit:CalendarExtender>
+                            </center>
+                    </div>
                 </div>
-                <p><br /></p>
+                <p>
+                    <br />
+                </p>
                 <div class="row">
                     <div class="col-4">
                         <center>
                             <asp:Button ID="btnAceptar" class="btn btn-outline-success" runat="server" Text="Aceptar"
-                            OnClick="btnAceptar_Click" ViewStateMode="Disabled" />
+                                OnClick="btnAceptar_Click" ViewStateMode="Disabled" />
 
-                        <asp:Button ID="btnCancelar" class="btn btn-outline-warning" runat="server" Text="Cancelar" CausesValidation="false"
-                            OnClick="btnCancelar_Click" ViewStateMode="Disabled" />
+                            <asp:Button ID="btnCancelar" class="btn btn-outline-warning" runat="server" Text="Cancelar" CausesValidation="false"
+                                OnClick="btnCancelar_Click" ViewStateMode="Disabled" />
                         </center>
                     </div>
                     <div class="col-8">

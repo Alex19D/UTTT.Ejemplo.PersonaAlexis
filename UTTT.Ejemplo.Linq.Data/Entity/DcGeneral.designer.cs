@@ -113,7 +113,9 @@ namespace UTTT.Ejemplo.Linq.Data.Entity
 		private string _strAMaterno;
 
 		private string _strCurp;
-		
+
+		private System.Nullable<System.DateTime> _dteFechaNacimiento;
+
 		private System.Nullable<int> _idCatSexo;
 		
 		private EntitySet<Direccion> _Direccion;
@@ -136,6 +138,8 @@ namespace UTTT.Ejemplo.Linq.Data.Entity
     partial void OnstrAMaternoChanged();
 	partial void OnstrCurpChanging(string value);
 	partial void OnstrCurpChanged();
+	partial void OndteFechaNacimientoChanging(System.Nullable<System.DateTime> value);
+	partial void OndteFechaNacimientoChanged();
 	partial void OnidCatSexoChanging(System.Nullable<int> value);
     partial void OnidCatSexoChanged();
     #endregion
@@ -266,6 +270,30 @@ namespace UTTT.Ejemplo.Linq.Data.Entity
 				}
 			}
 		}
+
+
+
+
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage = "_dteFechaNacimiento", DbType = "DateTime")]
+		public System.Nullable<System.DateTime> dteFechaNacimiento
+		{
+			get
+			{
+				return this._dteFechaNacimiento;
+			}
+			set
+			{
+				if ((this._dteFechaNacimiento != value))
+				{
+					this.OndteFechaNacimientoChanging(value);
+					this.SendPropertyChanging();
+					this._dteFechaNacimiento = value;
+					this.SendPropertyChanged("dteFechaNacimiento");
+					this.OndteFechaNacimientoChanged();
+				}
+			}
+		}
+
 
 
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_idCatSexo", DbType="Int")]

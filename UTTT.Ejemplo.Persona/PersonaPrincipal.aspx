@@ -1,32 +1,39 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PersonaPrincipal.aspx.cs" Inherits="UTTT.Ejemplo.Persona.PersonaPrincipal" Debug="false" %>
-
+<%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="AjaxToolkit" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title>AlexD1921</title>
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
-    <script src="Scripts/jquery-1.4.1.min.js"></script>
-    <script src="Scripts/bootstrap.min.js"></script>
 </head>
 <body>
-    <div class="col-md-12">
+    <header>
+    <div class="col-100%">
         <nav class="navbar navbar-dark bg-dark">
             <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1">Persona</span>
+                <span class="navbar-brand mb-0 h1" lang="bal">Persona</span>
+                
             </div>
         </nav>
     </div>
+    <header>
     <section class="container-fluid">
         <form id="form1" runat="server">
+            <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="True">
+                </asp:ScriptManager>
             <div>
                 <p>
                 </p>
                 <br />
                 <p>
-                    Nombre:&nbsp;&nbsp;&nbsp;
+                    Nombre:&nbsp;&nbsp;&nbsp;&nbsp;
 
         <asp:TextBox ID="txtNombre" runat="server"  Width="177px"
-            ViewStateMode="Disabled"></asp:TextBox>
+            ViewStateMode="Disabled" OnTextChanged="buscarTextBox" AutoPostBack="True"></asp:TextBox>
+                    <AjaxToolkit:AutoCompleteExtender ID="AutoCompleteExtender" runat="server" CompletionInterval="100" EnableCaching="false" 
+                        MinimumPrefixLength="2" ServiceMethod="txtNombre_TextChanged"
+                        TargetControlID="txtNombre">
+                    </AjaxToolkit:AutoCompleteExtender>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <asp:Button class="btn btn-outline-primary" ID="btnBuscar" runat="server" Text="Buscar"
             OnClick="btnBuscar_Click" ViewStateMode="Disabled" />
@@ -37,7 +44,7 @@
             </div>
             <div>
                 <div>
-                    Sexo:&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    Sexo :&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
         <asp:DropDownList  class="btn btn-outline-dark" data-bs-toggle="dropdown" aria-expanded="false"
             ID="ddlSexo" runat="server" Width="177px">
@@ -54,11 +61,12 @@
             <div>
             </div>
 
-            <div class="row justify-content-center">
+            <div class="row justify-content">
                 <div class="table-responsive">
                     <div>
 
-                        <asp:GridView class="table table-dark table-hover" ID="dgvPersonas" runat="server"
+                        <asp:GridView CssClass="table table-dark table-hover table-bordered table-hover" 
+                            ID="dgvPersonas" runat="server"
                             AllowPaging="True" AutoGenerateColumns="False" DataSourceID="DataSourcePersona"
                             Width="1067px" CellPadding="3" GridLines="Horizontal"
                             OnRowCommand="dgvPersonas_RowCommand" BackColor="red"

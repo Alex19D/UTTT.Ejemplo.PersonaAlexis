@@ -107,7 +107,8 @@ namespace UTTT.Ejemplo.Persona
 
                 List<UTTT.Ejemplo.Linq.Data.Entity.Persona> listaPersona =
                     dcConsulta.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Persona>().Where(predicate).ToList();
-                e.Result = listaPersona;        
+                e.Result = listaPersona;    
+                
             }
             catch (Exception _e)
             {
@@ -171,7 +172,7 @@ namespace UTTT.Ejemplo.Persona
                     c => c.id == _idPersona);
                 dcDelete.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Persona>().DeleteOnSubmit(persona);
                 dcDelete.SubmitChanges();
-                this.showMessage("El registro se agrego correctamente.");
+                this.showMessage("El registro se Elimino correctamente.");
                 this.DataSourcePersona.RaiseViewChanged();                
             }
             catch (Exception _e)
@@ -199,5 +200,22 @@ namespace UTTT.Ejemplo.Persona
         }
 
         #endregion
+
+        protected void onTxtNombreChange(object sender, EventArgs e) 
+        {
+            try
+            {
+                this.DataSourcePersona.RaiseViewChanged();
+            }
+            catch(Exception f)
+            {
+                this.showMessage("Error al buscar");
+            }
+        }
+
+        protected void buscarTextBox(object sender, EventArgs e)
+        {
+            this.DataSourcePersona.RaiseViewChanged();
+        }
     }
 }
