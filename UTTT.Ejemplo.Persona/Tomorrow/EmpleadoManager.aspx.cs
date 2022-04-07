@@ -24,13 +24,13 @@ using System.ComponentModel;
 
 namespace UTTT.Ejemplo.Persona
 {
-    public partial class PersonaManager : System.Web.UI.Page
+    public partial class EmpleadoManager : System.Web.UI.Page
     {
         #region Variables
 
         private SessionManager session = new SessionManager();
         private int idPersona = 0;
-        private UTTT.Ejemplo.Linq.Data.Entity.Persona baseEntity;
+        private UTTT.Ejemplo.Linq.Data.Entity.Empleado baseEntity;
         private DataContext dcGlobal = new DcGeneralDataContext();
         private int tipoAccion = 0;
 
@@ -49,12 +49,12 @@ namespace UTTT.Ejemplo.Persona
 
                 if (this.idPersona == 0)
                 {
-                    this.baseEntity = new Linq.Data.Entity.Persona();
+                    this.baseEntity = new Linq.Data.Entity.Empleado();
                     this.tipoAccion = 1;
                 }
                 else
                 {
-                    this.baseEntity = dcGlobal.GetTable<Linq.Data.Entity.Persona>().First(c => c.id == this.idPersona);
+                    this.baseEntity = dcGlobal.GetTable<Linq.Data.Entity.Empleado>().First(c => c.Id == this.idPersona);
                     this.tipoAccion = 2;
                 }
 
@@ -68,6 +68,11 @@ namespace UTTT.Ejemplo.Persona
                     this.ddlSexo.DataTextField = "strValor";
                     this.ddlSexo.DataValueField = "id";
 
+                    List<CatPuesto> listaP = dcGlobal.GetTable<CatPuesto>().ToList();
+                    this.ddlPuesto.DataTextField = "strValor";
+                    this.ddlPuesto.DataValueField = "id";
+
+
                     if (this.idPersona == 0)
                     {
 
@@ -77,7 +82,17 @@ namespace UTTT.Ejemplo.Persona
                         lista.Insert(0, catTemp);
                         this.ddlSexo.DataSource = lista;
                         this.ddlSexo.DataBind();
+
+
+                        CatPuesto catTempP = new CatPuesto();
+                        catTempP.Id = -1;
+                        catTempP.strValor = "Seleccionar";
+                        listaP.Insert(0, catTempP);
+                        this.ddlPuesto.DataSource = listaP;
+                        this.ddlPuesto.DataBind();
                         this.lblAccion.Text = "Agregar";
+
+
 
                         this.Calendar1.SelectedDate = DateTime.Now;
                         this.Calendar1.EndDate = DateTime.Now;
@@ -85,16 +100,20 @@ namespace UTTT.Ejemplo.Persona
                     else
                     {
                         this.lblAccion.Text = "Editar";
-                        Calendar1.SelectedDate = this.baseEntity.dteFechaNacimiento.Value.Date;
+                        Calendar1.SelectedDate = this.baseEntity.dteFechaDeContratacion.Value.Date;
                         this.txtNombre.Text = this.baseEntity.strNombre;
-                        this.txtCurp.Text = this.baseEntity.strCURP;
+                        this.txtCurp.Text = this.baseEntity.strCurp;
                         this.txtAPaterno.Text = this.baseEntity.strAPaterno;
-                        this.txtAMaterno.Text = this.baseEntity.strAMaterno;
-                        this.txtClaveUnica.Text = this.baseEntity.strClaveUnica;
+                        this.txtAMaterno.Text = this.baseEntity.strAMAterno;
                         
                         this.ddlSexo.DataSource = lista;
                         this.ddlSexo.DataBind();
                         this.setItem(ref this.ddlSexo, baseEntity.CatSexo.strValor);
+
+
+                        this.ddlPuesto.DataSource = listaP;
+                        this.ddlPuesto.DataBind();
+                        this.setItem(ref this.ddlPuesto, baseEntity.CatPuesto.strValor);
 
                     }
                     
@@ -104,7 +123,7 @@ namespace UTTT.Ejemplo.Persona
             catch (Exception _e)
             {
                 this.showMessage("Ha ocurrido un problema al cargar la página");
-                this.Response.Redirect("~/PersonaPrincipal.aspx", false);
+                this.Response.Redirect("~/Tomorrow/EmpleadoP.aspx");
             }
 
         }
@@ -138,21 +157,34 @@ namespace UTTT.Ejemplo.Persona
                 }
 
                 DataContext dcGuardar = new DcGeneralDataContext();
-                UTTT.Ejemplo.Linq.Data.Entity.Persona persona = new Linq.Data.Entity.Persona();
+                UTTT.Ejemplo.Linq.Data.Entity.Empleado persona = new Linq.Data.Entity.Empleado();
                 if (this.idPersona == 0)
                 {
-                    persona.strClaveUnica = this.txtClaveUnica.Text.Trim();
+                    int x = -1;
+                    int y = -1;
+
+                    if (this.ddlSexo.Text != "")
+                    {
+                        x = int.Parse(this.ddlSexo.Text);
+                    }
+
+                    if (this.ddlPuesto.Text != "")
+                    {
+                        y = int.Parse(this.ddlPuesto.Text);
+                    }
+
                     persona.strNombre = this.txtNombre.Text.Trim();
-                    persona.strAMaterno = this.txtAMaterno.Text.Trim();
+                    persona.strAMAterno = this.txtAMaterno.Text.Trim();
                     persona.strAPaterno = this.txtAPaterno.Text.Trim();
-                    persona.strCURP = this.txtCurp.Text.Trim();
-                    persona.dteFechaNacimiento = fechaNacimiento;
-                    persona.idCatSexo = int.Parse(this.ddlSexo.Text);
+                    persona.strCurp = this.txtCurp.Text.Trim();
+                    persona.dteFechaDeContratacion = fechaNacimiento;
+                    persona.Sexo_id = x; 
+                    persona.Puesto_id= y;
 
                     String mensaje = String.Empty;
                     //validacion de datos correctos desde codigo
 
-                    if (this.ValidVacio(persona))
+                    if (persona.strNombre=="" && persona.strAPaterno=="" && persona.strAMAterno=="" && persona.strCurp=="" && persona.Sexo_id==-1 && persona.Puesto_id==-1)
                     {
                         this.btnCancelar_Click(sender, e);
                         return;
@@ -165,31 +197,40 @@ namespace UTTT.Ejemplo.Persona
                         return;
                     }
 
-                    dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Persona>().InsertOnSubmit(persona);
+                    dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Empleado>().InsertOnSubmit(persona);
                     dcGuardar.SubmitChanges();
                     this.showMessage("El registro se agrego correctamente.");
-                    this.Response.Redirect("~/PersonaPrincipal.aspx", false);
+                    this.Response.Redirect("~/Tomorrow/EmpleadoP.aspx");
                     
                 }
                 if (this.idPersona > 0)
                 {
                     int x = -1;
+                    int y = -1;
+
                     if (this.ddlSexo.Text != "")
                     {
                         x = int.Parse(this.ddlSexo.Text);
                     }
-                    persona = dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Persona>().First(c => c.id == idPersona);
-                    persona.strClaveUnica = this.txtClaveUnica.Text.Trim();
+                    
+                    if (this.ddlPuesto.Text != "")
+                    {
+                        y = int.Parse(this.ddlPuesto.Text);
+                    }
+
+
+                    persona = dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Empleado>().First(c => c.Id == idPersona);
                     persona.strNombre = this.txtNombre.Text.Trim();
-                    persona.strAMaterno = this.txtAMaterno.Text.Trim();
+                    persona.strAMAterno = this.txtAMaterno.Text.Trim();
                     persona.strAPaterno = this.txtAPaterno.Text.Trim();
-                    persona.strCURP = this.txtCurp.Text.Trim();
-                    persona.dteFechaNacimiento = fechaNacimiento;
-                    persona.idCatSexo = x;
+                    persona.strCurp = this.txtCurp.Text.Trim();
+                    persona.dteFechaDeContratacion = fechaNacimiento;
+                    persona.Sexo_id = x;
+                    persona.Puesto_id = y;
                     String mensaje = String.Empty;
                     //validacion de datos correctos desde codigo
 
-                    if (this.ValidVacio(persona))
+                    if (persona.strNombre == "" && persona.strAPaterno == "" && persona.strAMAterno == "" && persona.strCurp == "" && persona.Sexo_id == -1 && persona.Puesto_id==-1)
                     {
                         this.btnCancelar_Click(sender, e);
                         return;
@@ -203,7 +244,7 @@ namespace UTTT.Ejemplo.Persona
                     }
                     dcGuardar.SubmitChanges();
                     this.showMessage("El registro se edito correctamente.");
-                    this.Response.Redirect("~/PersonaPrincipal.aspx", false);
+                    this.Response.Redirect("~/Tomorrow/EmpleadoP.aspx");
                 }
             }
             catch (Exception _e)
@@ -216,7 +257,7 @@ namespace UTTT.Ejemplo.Persona
         {
             try
             {              
-                this.Response.Redirect("~/PersonaPrincipal.aspx", false);
+                this.Response.Redirect("~/Tomorrow/EmpleadoP.aspx");
             }
             catch (Exception _e)
             {
@@ -244,6 +285,33 @@ namespace UTTT.Ejemplo.Persona
             }
         }
 
+
+
+        protected void ddlPuesto_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            try
+            {
+                int idPuesto = int.Parse(this.ddlPuesto.Text);
+                Expression<Func<CatPuesto, bool>> predicatePuesto = c => c.Id == idPuesto;
+                predicatePuesto.Compile();
+                List<CatPuesto> listaP = dcGlobal.GetTable<CatPuesto>().Where(predicatePuesto).ToList();
+                CatPuesto catTempP = new CatPuesto();
+                this.ddlPuesto.DataTextField = "strValor";
+                this.ddlPuesto.DataValueField = "id";
+                this.ddlPuesto.DataSource = listaP;
+                this.ddlPuesto.DataBind();
+            }
+            catch (Exception)
+            {
+                this.showMessage("Ha ocurrido un error inesperado");
+            }
+        }
+
+
+
+
+
+
         #endregion
 
         #region Metodos
@@ -263,33 +331,14 @@ namespace UTTT.Ejemplo.Persona
 
         #endregion
 
-        public bool validacion(UTTT.Ejemplo.Linq.Data.Entity.Persona _persona, ref String _mensaje)
+        public bool validacion(UTTT.Ejemplo.Linq.Data.Entity.Empleado _persona, ref String _mensaje)
         {
-            if (_persona.idCatSexo == -1)
+            if (_persona.Sexo_id == -1)
             {
                 _mensaje = "Seleccione Masculino o Femenino";
                 return false;
             }
-            if (_persona.strClaveUnica.Equals(String.Empty))
-            {
-                _mensaje = "La Clave Unica esta Vacia";
-                return false;
-            }
-            int i = 0;
-            //Verificar si un texto es un número
-            if (int.TryParse(_persona.strClaveUnica, out i) == false)
-            {
-                _mensaje = "La Clave Unica no es un número";
-                return false;
-            }
-            ////Validamos un número
-            ////string, saber que es un número
-            ////99 y 1000
-            if (int.Parse(_persona.strClaveUnica) < 100 || int.Parse(_persona.strClaveUnica) > 999)
-            {
-                _mensaje = "La Clave Unica esta fuera de rango";
-                return false;
-            }
+
             if (_persona.strNombre.Equals(String.Empty))
             {
                 _mensaje = "El campo Nombre está vacio";
@@ -312,109 +361,45 @@ namespace UTTT.Ejemplo.Persona
                 _mensaje = "Los caracteres permitidos para nombre rebasan lo establecido de 50 para A Paterno";
                 return false;
             }
-            if (_persona.strAMaterno.Equals(String.Empty))
+            if (_persona.strAMAterno.Equals(String.Empty))
             {
                 _mensaje = "El campo AMaterno esta vacio";
                 return false;
             }
 
-            if (_persona.strAMaterno.Length > 50)
+            if (_persona.strAMAterno.Length > 50)
             {
                 _mensaje = "Los caracteres permitidos para nombre rebasan lo establecido de 50 para A Materno";
                 return false;
             }
-            if (_persona.strCURP.Equals(String.Empty))
+            if (_persona.strCurp.Equals(String.Empty))
             {
                 _mensaje = "El campo Curp esta vacio";
                 return false;
             }
 
-            if (_persona.strCURP.Length > 50)
+            if (_persona.strCurp.Length > 50)
             {
                 _mensaje = "Los caracteres permitidos para Curp rebasan lo establecido de 50";
                 return false;
             }
-            if(_persona.dteFechaNacimiento.Value.Year.ToString() == "1751")
+            if(_persona.dteFechaDeContratacion.Value.Year.ToString() == "1751")
             {
                 _mensaje = "El campo de fecha de nacimiento contiene un formato no Valido";
                 return false;
             }
-            if(_persona.dteFechaNacimiento.Value.Year.ToString() == "1750")
+            if(_persona.dteFechaDeContratacion.Value.Year.ToString() == "1750")
             {
                 _mensaje = "El campo de fecha de nacimiento no puede estar vacio";
                 return false;
             }
-            if (_persona.dteFechaNacimiento.Value.Year == DateTime.Now.Year)
-            {
-                _mensaje = "El campo de fecha de nacimiento no puede ser del presente año";
-                return false;
-            }
-            if (int.Parse(_persona.dteFechaNacimiento.Value.Year.ToString()) <= 1753 || int.Parse(_persona.dteFechaNacimiento.Value.Year.ToString()) >= 9999)
+            if (int.Parse(_persona.dteFechaDeContratacion.Value.Year.ToString()) <= 1753 || int.Parse(_persona.dteFechaDeContratacion.Value.Year.ToString()) >= 9999)
             {
                 _mensaje = "El campo de fecha de nacimiento no debe estar entre 1753 y 9999";
                 return false;
             }
             return true;
 
-        }
-
-        public bool ValidVacio(UTTT.Ejemplo.Linq.Data.Entity.Persona _persona)
-        {
-            bool x = true;
-            for (int i = 0; i < 7; i++)
-            {
-                switch (i)
-                {
-                    case 0:
-                        if (_persona.idCatSexo != -1)
-                        {
-                            x = false;
-                            i = 6;
-                        }
-                        break;
-                    case 1:
-                        if (!_persona.strClaveUnica.Equals(String.Empty))
-                        {
-                            x = false;
-                            i = 6;
-                        }
-                        break;
-                    case 2:
-                        if (!_persona.strNombre.Equals(String.Empty))
-                        {
-                            x = false;
-                            i = 6;
-                        }
-                        break;
-                    case 3:
-                        if (!_persona.strAPaterno.Equals(String.Empty))
-                        {
-                            x = false;
-                            i = 6;
-                        }
-                        break;
-                    case 4:
-                        if (!_persona.strAMaterno.Equals(String.Empty))
-                        {
-                            x = false;
-                            i = 6;
-                        }
-                        break;
-                    case 5:
-                        if (!_persona.strCURP.Equals(String.Empty))
-                        {
-                            x = false;
-                        }
-                        break;
-                    case 6:
-                        if (_persona.dteFechaNacimiento.Value.Year != DateTime.Now.Year)
-                        {
-                            x = false;
-                        }
-                            break;
-                }
-            }
-            return x;
         }
 
     }

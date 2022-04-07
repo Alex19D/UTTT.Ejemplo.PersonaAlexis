@@ -1,10 +1,10 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="PersonaManager.aspx.cs" Inherits="UTTT.Ejemplo.Persona.PersonaManager" Debug="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="EmpleadoManager.aspx.cs" Inherits="UTTT.Ejemplo.Persona.EmpleadoManager" Debug="false" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="AjaxToolkit" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
     <title></title>
-    <link href="Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="../Content/bootstrap.min.css" rel="stylesheet" />
     <script type="text/javascript">
         function validaNumeros(evt) {
             var code = (evt.which) ? evt.which : evt.keyCode;
@@ -76,6 +76,7 @@
             <div class="container">
                 <div class="row">
 
+
                     <div class="col-2">Sexo:</div>
                     <div class="col-2">
                         <asp:UpdatePanel ID="UP" runat="server">
@@ -91,27 +92,7 @@
                             </Triggers>
                         </asp:UpdatePanel>
                     </div>
-                    <div class="col-12 col-xl-8">
-                        <p></p>
-                    </div>
-
-
-
-
-                    <div class="col-2">Clave Unica </div>
-                    <div class="col-2">
-                        <asp:TextBox ID="txtClaveUnica" runat="server"
-                            Width="210px" ViewStateMode="Disabled"
-                            onkeypress="return validaNumeros(event);" MaxLength="3">
-                        </asp:TextBox>
-                    </div>
-                    <div class="col-12 col-xl-8">
-                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <asp:RangeValidator
-                            ID="rvClaveUnica" runat="server" ControlToValidate="txtClaveUnica" ErrorMessage="*La clave Unica debe de estar entre 100 y 999"
-                            MaximumValue="999" MinimumValue="100" Type="Integer">
-                        </asp:RangeValidator>
-                    </div>
+                    <div class="col-8"></div>
 
 
                     <div class="col-2">Nombre </div>
@@ -178,9 +159,24 @@
                         </asp:RegularExpressionValidator>
                     </div>
 
+                     <div class="col-2">Puesto:</div>
+                    <div class="col-2">
+                        <asp:UpdatePanel ID="UP1" runat="server">
+                            <ContentTemplate>
+                                <asp:DropDownList
+                            ID="ddlPuesto" class="btn btn-outline-dark" runat="server"
+                            Width="210px"
+                            OnSelectedIndexChanged="ddlPuesto_SelectedIndexChanged">
+                        </asp:DropDownList>
+                            </ContentTemplate>
+                            <Triggers>
+                                <asp:AsyncPostBackTrigger ControlID="ddlPuesto" EventName="SelectedIndexChanged"/>
+                            </Triggers>
+                        </asp:UpdatePanel>
+                    </div>
+                    <div class="col-8"></div>
 
-
-                    <div class="col-2">Fecha de Nacimiento: </div>
+                    <div class="col-2">Fecha de Contratacion: </div>
                     <div class="col-2">
                             <asp:TextBox ID="txtFechaNacimiento" runat="server" Width="210px" ></asp:TextBox>
                     </div>
@@ -193,6 +189,7 @@
                             BehaviorID="Calendar1" PopupButtonID="imgFD" TargetControlID="txtFechaNacimiento"></ajaxToolkit:CalendarExtender>
                             </center>
                     </div>
+
                 </div>
                 <p>
                     <br />
