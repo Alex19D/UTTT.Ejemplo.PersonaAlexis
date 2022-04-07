@@ -63,11 +63,27 @@ namespace UTTT.Ejemplo.Persona
 
                     if (usuario != null)
                     {
+                        this.lblInstrucc.Visible = false;
                         listaPersona.Add(usuario);
+                        this.lblEnc.Text = "Usuario Encontrado";
+                        this.lblEnc.ForeColor = System.Drawing.Color.Green;
                         this.lblEnc.Visible = true;
                     }
+                    if (usuario == null)
+                    {
+                        this.lblEnc.Visible = false;
+                        this.lblInstrucc.Text = "El Usuario no existe";
+                        this.lblInstrucc.ForeColor = System.Drawing.Color.Red;
+                        this.lblInstrucc.Visible = true;
+                    }
                 }
-                
+                if (!nombreBool)
+                {
+                    this.lblEnc.Visible = false;
+                    this.lblInstrucc.Text = "Escriba el usuario en el recuadro";
+                    this.lblInstrucc.ForeColor = System.Drawing.Color.Blue;
+                    this.lblInstrucc.Visible = true;
+                }
                 e.Result = listaPersona;    
                 
             }
