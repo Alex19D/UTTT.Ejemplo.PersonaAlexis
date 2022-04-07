@@ -8,7 +8,7 @@
 </head>
 <body>
         <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-expand navbar-dark bg-dark">
             <div class="container-fluid">
                 <a class="navbar-brand">El Mañana</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -49,10 +49,7 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <asp:Button class="btn btn-outline-primary" ID="btnBuscar" runat="server" Text="Buscar"
             OnClick="btnBuscar_Click" ViewStateMode="Disabled" />
-                    &nbsp;&nbsp;&nbsp;
-        <asp:Button class="btn btn-outline-dark" ID="btnAgregar" runat="server"  Text="Agregar"
-            OnClick="btnAgregar_Click" ViewStateMode="Disabled" />
-
+                    
                     &nbsp;&nbsp;&nbsp;
         <asp:Button class="btn btn-outline-info" ID="btnRegresar" runat="server"  Text="Regresar"
             ViewStateMode="Disabled" OnClick="btnRegresar_Click" />
@@ -65,7 +62,9 @@
         <asp:DropDownList  class="btn btn-outline-dark" data-bs-toggle="dropdown" aria-expanded="false"
             ID="ddlSexo" runat="server" Width="177px">
         </asp:DropDownList>
-                    <p></p>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <asp:Button class="btn btn-outline-dark" ID="btnAgregar" runat="server"  Text="Agregar"
+            OnClick="btnAgregar_Click" ViewStateMode="Disabled" />
                 </div>
 
             </div>

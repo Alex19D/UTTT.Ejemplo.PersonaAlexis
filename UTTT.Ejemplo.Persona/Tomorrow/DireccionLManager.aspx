@@ -10,15 +10,28 @@
 </head>
 <body>
     <header>
-    <div class="col-100%">
-        <nav class="navbar navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-expand navbar-dark bg-dark">
             <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1" lang="bal">Dirección</span>
-                
+                <a class="navbar-brand">El Mañana</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page">
+                                <asp:Label ID="lblPerfil" runat="server" Text="..." Visible="False" ForeColor="White"></asp:Label>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">Locales</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
-    </div>
-    <header>
+    </header>
+
     <section class="container-fluid">
         <form id="form1" runat="server">
 

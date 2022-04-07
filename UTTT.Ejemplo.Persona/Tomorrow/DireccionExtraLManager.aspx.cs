@@ -28,6 +28,7 @@ namespace UTTT.Ejemplo.Persona
         private DataContext dcGlobal = new DcGeneralDataContext();
         private int tipoAccion = 0;
         private int idDireccion = 0;
+        private int idPerfil = 0;
 
         #endregion
 
@@ -45,6 +46,9 @@ namespace UTTT.Ejemplo.Persona
                 this.idDireccion = this.session.Parametros["idDireccion"] != null ?
                     int.Parse(this.session.Parametros["idDireccion"].ToString()) : 0;
 
+                this.idPerfil = this.session.Parametros["idPerfil"] != null ?
+                    int.Parse(this.session.Parametros["idPerfil"].ToString()) : 0;
+
                 if (this.idDireccion == 0)
                 {
                     this.baseEntity = new Linq.Data.Entity.DireccionLocal();
@@ -54,6 +58,17 @@ namespace UTTT.Ejemplo.Persona
                 {
                     this.baseEntity = dcGlobal.GetTable<Linq.Data.Entity.DireccionLocal>().First(c => c.Id == this.idDireccion);
                     this.tipoAccion = 2;
+                }
+
+                if (idPerfil > 0)
+                {
+                    var y = new Linq.Data.Entity.CatPerfil();
+                    using (var x = new DcGeneralDataContext())
+                    {
+                        y = x.CatPerfil.FirstOrDefault(c => c.Id == idPerfil);
+                    }
+                    this.lblPerfil.Text = y.strValor;
+                    this.lblPerfil.Visible = true;
                 }
 
                 if (!this.IsPostBack)
@@ -126,7 +141,15 @@ namespace UTTT.Ejemplo.Persona
                     dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.DireccionLocal>().InsertOnSubmit(direccion);
                     dcGuardar.SubmitChanges();
                     this.showMessage("El registro se agrego correctamente.");
-                    this.Response.Redirect("~/Tomorrow/DireccionLManager.aspx");
+
+
+                    this.session.Pantalla = "~/Tomorrow/DireccionLManager.aspx";
+                    Hashtable parametrosRagion = new Hashtable();
+                    parametrosRagion.Add("idPersona", this.idPersona.ToString());
+                    parametrosRagion.Add("idPerfil", idPerfil.ToString());
+                    this.session.Parametros = parametrosRagion;
+                    this.Session["SessionManager"] = this.session;
+                    this.Response.Redirect(this.session.Pantalla, false);
                 }
                 if (this.idDireccion > 0)
                 {
@@ -159,7 +182,15 @@ namespace UTTT.Ejemplo.Persona
 
                     dcGuardar.SubmitChanges();
                     this.showMessage("El registro se edito correctamente.");
-                    this.Server.Transfer("~/Tomorrow/DireccionLManager.aspx");
+
+
+                    this.session.Pantalla = "~/Tomorrow/DireccionLManager.aspx";
+                    Hashtable parametrosRagion = new Hashtable();
+                    parametrosRagion.Add("idPersona", this.idPersona.ToString());
+                    parametrosRagion.Add("idPerfil", idPerfil.ToString());
+                    this.session.Parametros = parametrosRagion;
+                    this.Session["SessionManager"] = this.session;
+                    this.Response.Redirect(this.session.Pantalla, false);
 
                 }
             }
@@ -173,7 +204,13 @@ namespace UTTT.Ejemplo.Persona
         {
             try
             {
-                this.Response.Redirect("~/Tomorrow/DireccionLManager.aspx");
+                this.session.Pantalla = "~/Tomorrow/DireccionLManager.aspx";
+                Hashtable parametrosRagion = new Hashtable();
+                parametrosRagion.Add("idPersona", this.idPersona.ToString());
+                parametrosRagion.Add("idPerfil", idPerfil.ToString());
+                this.session.Parametros = parametrosRagion;
+                this.Session["SessionManager"] = this.session;
+                this.Response.Redirect(this.session.Pantalla, false);
             }
             catch (Exception _e)
             {

@@ -110,11 +110,14 @@
     <Content Include="Images\editrecord_16x16.png" />
     <Content Include="Images\Fondo4.jpg" />
     <Content Include="Images\logo.png" />
+    <Content Include="Images\pass.png" />
     <Content Include="Images\Pixir-1-1-300x181.png" />
     <Content Include="Images\printrecord_16x16.png" />
     <Content Include="Images\user.png" />
     <Content Include="javaScripFile.js" />
     <Content Include="javaScripPage.aspx" />
+    <Content Include="Tomorrow\RecuperarManager.aspx" />
+    <Content Include="Tomorrow\RecuperarPrincipal.aspx" />
     <Content Include="Tomorrow\UsuarioExtraManager.aspx" />
     <Content Include="Tomorrow\DireccionExtraLManager.aspx" />
     <Content Include="Tomorrow\UsuarioManager.aspx" />
@@ -184,6 +187,20 @@
     </Compile>
     <Compile Include="javaScripPage.aspx.designer.cs">
       <DependentUpon>javaScripPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Tomorrow\RecuperarManager.aspx.cs">
+      <DependentUpon>RecuperarManager.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Tomorrow\RecuperarManager.aspx.designer.cs">
+      <DependentUpon>RecuperarManager.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Tomorrow\RecuperarPrincipal.aspx.cs">
+      <DependentUpon>RecuperarPrincipal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Tomorrow\RecuperarPrincipal.aspx.designer.cs">
+      <DependentUpon>RecuperarPrincipal.aspx</DependentUpon>
     </Compile>
     <Compile Include="Tomorrow\UsuarioExtraManager.aspx.cs">
       <DependentUpon>UsuarioExtraManager.aspx</DependentUpon>

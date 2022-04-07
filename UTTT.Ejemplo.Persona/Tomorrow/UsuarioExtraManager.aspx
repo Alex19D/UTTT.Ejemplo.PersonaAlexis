@@ -54,13 +54,28 @@
     </script>
 </head>
 <body>
-    <div class="col-md-12">
-        <nav class="navbar navbar-dark bg-dark">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-expand navbar-dark bg-dark">
             <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1">Direccion</span>
+                <a class="navbar-brand">El Mañana</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page">
+                                <asp:Label ID="lblPerfil" runat="server" Text="..." Visible="False" ForeColor="White"></asp:Label>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">Empleados</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
-    </div>
+    </header>
 
 
     <section class="container">
@@ -142,7 +157,9 @@
                             </Triggers>
                         </asp:UpdatePanel>
                     </div>
-                    <div class="col-8"></div>
+                    <div class="col-12 col-xl-8">
+                        <p></p>
+                    </div>
 
 
                     <div class="col-2">Status:</div>

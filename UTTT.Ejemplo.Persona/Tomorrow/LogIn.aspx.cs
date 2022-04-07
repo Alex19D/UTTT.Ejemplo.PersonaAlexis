@@ -27,39 +27,76 @@ namespace UTTT.Ejemplo.Persona
 
         protected void Page_Load(object sender, EventArgs e)
         {
+            
         }
 
         protected void btnAceptar_Click(object sender, EventArgs e)
         {
-            if (this.Existe(txtUsuario.Text))
+            if (this.txtUsuario.Text.ToString() == "")
             {
-                string pass = this.DesEncriptar(this.baseEntity.strPassword.ToString());
-                if (this.txtPassword.Text == pass && this.baseEntity.Status_id==1)
-                {
-                    this.session.Pantalla = "~/Tomorrow/PantallaP.aspx";
-                    Hashtable parametrosRagion = new Hashtable();
-                    parametrosRagion.Add("idPerfil", this.baseEntity.perfil_id.ToString());
-                    this.session.Parametros = parametrosRagion;
-                    this.Session["SessionManager"] = this.session;
-                    this.Response.Redirect(this.session.Pantalla, false);
-                }
+                this.lblMensaje.Text = "* El Usuario esta vacio";
+                this.lblMensaje.Visible = true;
+                return;
             }
+            String mensaje = String.Empty;
+            Usuario usuario = new Usuario(); 
+            using(var x = new DcGeneralDataContext())
+            {
+                usuario = x.Usuario.FirstOrDefault(c=>c.strUsuario.ToString()==this.txtUsuario.Text.ToString());
+            }
+            
+
+            if(!this.Validacion(usuario, ref mensaje))
+            {
+                this.lblMensaje.Text = mensaje;
+                this.lblMensaje.Visible = true;
+                return;
+            }
+
+            this.session.Pantalla = "~/Tomorrow/PantallaP.aspx";
+            Hashtable parametrosRagion = new Hashtable();
+            parametrosRagion.Add("idPerfil", usuario.perfil_id.ToString());
+            this.session.Parametros = parametrosRagion;
+            this.Session["SessionManager"] = this.session;
+            this.Response.Redirect(this.session.Pantalla, false);
+
         }
 
-        private bool Existe(string name)
+
+
+        public bool Validacion(Usuario usuario, ref String _mensaje)
         {
-            bool resp = false;
-            try
-            {
-                this.baseEntity = dcGlobal.GetTable<Linq.Data.Entity.Usuario>().First(c => c.strUsuario == name);
-                resp = true;
-            }
-            catch
-            {
 
+
+            if (usuario == null)
+            {
+                _mensaje = "* El usuario ingresado no existe";
+                return false;
             }
-            return resp;
+
+            if (this.txtPassword.Text.ToString() == "")
+            {
+                _mensaje = "* La contraseña esta vacia";
+                return false;
+            }
+
+            string x = this.DesEncriptar(usuario.strPassword.ToString());
+
+            if (this.txtPassword.Text.ToString() != x)
+            {
+                _mensaje = "* La contraseña es Incorrecta";
+                return false;
+            }
+            if (usuario.Status_id != 1)
+            {
+                _mensaje = "* El usuario no se encuantra Activo";
+                return false;
+            }
+            return true;
         }
+
+
+
 
         public string DesEncriptar(string _cadenaAdesencriptar)
         {

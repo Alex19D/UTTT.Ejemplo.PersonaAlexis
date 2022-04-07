@@ -11,7 +11,7 @@
 <body>
 
     <header>
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <nav class="navbar navbar-expand-lg navbar-expand navbar-dark bg-dark">
             <div class="container-fluid">
                 <a class="navbar-brand">El Mañana</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -25,6 +25,9 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a class="nav-link">Pantalla Principal</a>
+                        </li>
+                        <li class="nav-item">
                             <a class="nav-link" href="LogIn.aspx">Cerrar Sesion</a>
                         </li>
                     </ul>
@@ -33,13 +36,14 @@
         </nav>
     </header>
 
-    <div class="container-fluid">
+    <div>
         <form id="form1" runat="server">
         <div>
             <br />
-            <asp:Button ID="btnProductos" runat="server" OnClick="btnProductos_Click" Text="Productos" Visible="False" />
-            <asp:Button ID="btnEmpleados" runat="server" Text="Empleados" Visible="False" OnClick="btnEmpleados_Click" />
-            <asp:Button ID="btnLocales" runat="server" Text="Locales" Visible="False" OnClick="btnLocales_Click" />
+            &nbsp;&nbsp;&nbsp;
+            <asp:Button ID="btnProductos" type="button" class="btn btn-outline-dark" runat="server" OnClick="btnProductos_Click" Text="Productos" Visible="False" />
+            <asp:Button ID="btnEmpleados" type="button" class="btn btn-outline-dark" runat="server" Text="Empleados" Visible="False" OnClick="btnEmpleados_Click" />
+            <asp:Button ID="btnLocales" type="button" class="btn btn-outline-dark" runat="server" Text="Locales" Visible="False" OnClick="btnLocales_Click" />
             <br />
             <br />
         </div>

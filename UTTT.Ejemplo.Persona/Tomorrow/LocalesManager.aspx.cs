@@ -33,6 +33,7 @@ namespace UTTT.Ejemplo.Persona
         private UTTT.Ejemplo.Linq.Data.Entity.Locales baseEntity;
         private DataContext dcGlobal = new DcGeneralDataContext();
         private int tipoAccion = 0;
+        private int idPerfil = 0;
 
         #endregion
 
@@ -47,6 +48,9 @@ namespace UTTT.Ejemplo.Persona
                 this.idEmpleado = this.session.Parametros["idPersona"] != null ?
                     int.Parse(this.session.Parametros["idPersona"].ToString()) : 0;
 
+                this.idPerfil = this.session.Parametros["idPerfil"] != null ?
+                   int.Parse(this.session.Parametros["idPerfil"].ToString()) : 0;
+
                 if (this.idEmpleado == 0)
                 {
                     this.baseEntity = new Linq.Data.Entity.Locales();
@@ -56,6 +60,17 @@ namespace UTTT.Ejemplo.Persona
                 {
                     this.baseEntity = dcGlobal.GetTable<Linq.Data.Entity.Locales>().First(c => c.Id == this.idEmpleado);
                     this.tipoAccion = 2;
+                }
+
+                if (idPerfil > 0)
+                {
+                    var y = new Linq.Data.Entity.CatPerfil();
+                    using (var x = new DcGeneralDataContext())
+                    {
+                        y = x.CatPerfil.FirstOrDefault(c => c.Id == idPerfil);
+                    }
+                    this.lblPerfil.Text = y.strValor;
+                    this.lblPerfil.Visible = true;
                 }
 
                 if (!this.IsPostBack)
@@ -87,6 +102,9 @@ namespace UTTT.Ejemplo.Persona
                         Calendar1.SelectedDate = this.baseEntity.dteFechaDeInauguracion.Value.Date;
                         this.txtCurp.Text = this.baseEntity.Descripcion;
                         this.txtClaveUnica.Text = this.baseEntity.strClaveLocal;
+
+                        this.txtClaveUnica.Enabled = false;
+
                         this.ddlSexo.DataSource = lista;
                         this.ddlSexo.DataBind();
                         this.setItem(ref this.ddlSexo, baseEntity.CatTipoLocal.strValor);
@@ -165,7 +183,14 @@ namespace UTTT.Ejemplo.Persona
                     dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Locales>().InsertOnSubmit(persona);
                     dcGuardar.SubmitChanges();
                     this.showMessage("El registro se agrego correctamente.");
-                    this.Response.Redirect("~/Tomorrow/LocalesPrincipal.aspx");
+
+                    this.session.Pantalla = "~/Tomorrow/LocalesPrincipal.aspx";
+                    Hashtable parametrosRagion = new Hashtable();
+                    parametrosRagion.Add("idPerfil", idPerfil.ToString());
+                    this.session.Parametros = parametrosRagion;
+                    this.Session["SessionManager"] = this.session;
+                    this.Response.Redirect(this.session.Pantalla, false);
+
                     
                 }
                 if (this.idEmpleado > 0)
@@ -177,7 +202,6 @@ namespace UTTT.Ejemplo.Persona
                     }
 
                     persona = dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Locales>().First(c => c.Id == idEmpleado);
-                    persona.strClaveLocal = this.txtClaveUnica.Text.Trim();
                     persona.Descripcion = this.txtCurp.Text.Trim();
                     persona.dteFechaDeInauguracion = fechaNacimiento;
                     persona.TipoLocal_id = x;
@@ -199,7 +223,14 @@ namespace UTTT.Ejemplo.Persona
                     }
                     dcGuardar.SubmitChanges();
                     this.showMessage("El registro se edito correctamente.");
-                    this.Response.Redirect("~/Tomorrow/LocalesPrincipal.aspx");
+
+
+                    this.session.Pantalla = "~/Tomorrow/LocalesPrincipal.aspx";
+                    Hashtable parametrosRagion = new Hashtable();
+                    parametrosRagion.Add("idPerfil", idPerfil.ToString());
+                    this.session.Parametros = parametrosRagion;
+                    this.Session["SessionManager"] = this.session;
+                    this.Response.Redirect(this.session.Pantalla, false);
                 }
             }
             catch (Exception _e)
@@ -211,8 +242,13 @@ namespace UTTT.Ejemplo.Persona
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
             try
-            {              
-                this.Response.Redirect("~/Tomorrow/LocalesPrincipal.aspx");
+            {
+                this.session.Pantalla = "~/Tomorrow/LocalesPrincipal.aspx";
+                Hashtable parametrosRagion = new Hashtable();
+                parametrosRagion.Add("idPerfil", idPerfil.ToString());
+                this.session.Parametros = parametrosRagion;
+                this.Session["SessionManager"] = this.session;
+                this.Response.Redirect(this.session.Pantalla, false);
             }
             catch (Exception _e)
             {
@@ -261,12 +297,17 @@ namespace UTTT.Ejemplo.Persona
 
         public bool validacion(UTTT.Ejemplo.Linq.Data.Entity.Locales _persona, ref String _mensaje)
         {
+            Linq.Data.Entity.Locales locales = new Locales();
+            using(var x = new Linq.Data.Entity.DcGeneralDataContext())
+            {
+                locales=x.Locales.FirstOrDefault(c=>c.strClaveLocal==_persona.strClaveLocal);
+            }
+
             if (_persona.TipoLocal_id == -1)
             {
                 _mensaje = "Seleccione Tipo de Local";
                 return false;
             }
-
 
             if (_persona.strClaveLocal.Equals(String.Empty))
             {
@@ -286,6 +327,11 @@ namespace UTTT.Ejemplo.Persona
             if (int.Parse(_persona.strClaveLocal) < 100 || int.Parse(_persona.strClaveLocal) > 999)
             {
                 _mensaje = "La Clave Local esta fuera de rango";
+                return false;
+            }
+            if (locales != null && this.idEmpleado==0)
+            {
+                _mensaje = "La Clave unica ya existe";
                 return false;
             }
 

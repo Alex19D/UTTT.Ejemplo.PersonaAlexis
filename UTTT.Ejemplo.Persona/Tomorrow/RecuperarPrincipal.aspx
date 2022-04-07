@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ProductoPrincipal.aspx.cs" Inherits="UTTT.Ejemplo.Persona.Tomorrow.ProductoPrincipal" Debug="false" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="RecuperarPrincipal.aspx.cs" Inherits="UTTT.Ejemplo.Persona.RecuperarPrincipal" Debug="false" %>
 <%@ Register Assembly="AjaxControlToolkit" Namespace="AjaxControlToolkit" TagPrefix="AjaxToolkit" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -18,11 +18,11 @@
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link active" aria-current="page">
-                                <asp:Label ID="lblPerfil" runat="server" Text="..." Visible="False" ForeColor="White"></asp:Label>
+                                Recuperar Contraseña
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link">Productos</a>
+                            <a class="nav-link" href="LogIn.aspx">Regresar</a>
                         </li>
                     </ul>
                 </div>
@@ -33,12 +33,12 @@
         <form id="form1" runat="server">
             <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="True">
                 </asp:ScriptManager>
-            <div class="col col-12">
+            <div>
                 <p>
                 </p>
                 <br />
                 <p>
-                    Nombre:&nbsp;&nbsp;&nbsp;&nbsp;
+                    Usuario:&nbsp;&nbsp;&nbsp;&nbsp;
 
         <asp:TextBox ID="txtNombre" runat="server"  Width="177px"
             ViewStateMode="Disabled" OnTextChanged="buscarTextBox" AutoPostBack="True"></asp:TextBox>
@@ -50,21 +50,16 @@
         <asp:Button class="btn btn-outline-primary" ID="btnBuscar" runat="server" Text="Buscar"
             OnClick="btnBuscar_Click" ViewStateMode="Disabled" />
                     &nbsp;&nbsp;&nbsp;
-        <asp:Button class="btn btn-outline-info" ID="btnRegresar" runat="server"  Text="Regresar"
-            ViewStateMode="Disabled" OnClick="btnRegresar_Click" />
                 </p>
             </div>
-                <p>
-                    <br />
-                    <asp:Button class="btn btn-outline-dark" ID="btnAgregar" runat="server"  Text="Agregar"
-                        OnClick="btnAgregar_Click" ViewStateMode="Disabled" />
-                </p>
+
             <div style="font-weight: bold">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Detalle<p></p>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                <asp:Label ID="lblEnc" runat="server" Text="Usuario Encontrado" Visible="False"></asp:Label>
+                <p></p>
             </div>
-            <div>
-            </div>
+            
 
             <div class="row justify-content">
                 <div class="table-responsive">
@@ -79,36 +74,27 @@
                             ViewStateMode="Disabled">
                             <AlternatingRowStyle BackColor="#F7F7F7" />
                             <Columns>
-                                
-                                <asp:BoundField DataField="strClaveProducto" HeaderText="ClaveProducto" ReadOnly="True"
-                                    SortExpression="strClaveProducto" />
-                                <asp:BoundField DataField="strNombre" HeaderText="Nombre" ReadOnly="True"
-                                    SortExpression="strNombre" />
-                                <asp:BoundField DataField="Precio" HeaderText="$ Precio $" ReadOnly="True"
-                                    SortExpression="Precio" />
 
-                                <asp:BoundField DataField="CatTipo" HeaderText="Tipo"
-                                    SortExpression="CatTipo" />
-                                
-                                <asp:BoundField DataField="strDescripcion" HeaderText="Descripcion" ReadOnly="True"
-                                    SortExpression="strDescripcion" />
-                                <asp:TemplateField HeaderText="Editar">
+                                <asp:BoundField DataField="strUsuario" HeaderText="Usuario" ReadOnly="True"
+                                            SortExpression="strUsuario" />
+
+                                        <asp:BoundField DataField="CatPerfil" HeaderText="Perfil"
+                                            SortExpression="CatPerfil" />
+
+                                        <asp:BoundField DataField="CatStatus" HeaderText="Status"
+                                            SortExpression="CatStatus" />
+
+
+                                <asp:TemplateField HeaderText="Recuperar">
                                     <ItemTemplate>
-                                        <asp:ImageButton runat="server" ID="imgEditar" CommandName="Editar" CommandArgument='<%#Bind("id") %>' ImageUrl="~/Images/editrecord_16x16.png" />
+                                        <asp:ImageButton runat="server" ID="imgEditar" CommandName="Editar" CommandArgument='<%#Bind("id") %>' ImageUrl="~/Images/pass.png" Width="20px" />
                                     </ItemTemplate>
                                     <HeaderStyle HorizontalAlign="Center" />
                                     <ItemStyle HorizontalAlign="Center" Width="50px" />
 
                                 </asp:TemplateField>
-                                <asp:TemplateField HeaderText="Eliminar" Visible="True">
-                                    <ItemTemplate>
-                                        <asp:ImageButton runat="server" ID="imgEliminar" CommandName="Eliminar" CommandArgument='<%#Bind("id") %>' ImageUrl="~/Images/delrecord_16x16.png" OnClientClick="javascript:return confirm('¿Está seguro de querer eliminar el registro seleccionado?', 'Mensaje de sistema')" />
-                                    </ItemTemplate>
-                                    <HeaderStyle HorizontalAlign="Center" />
-                                    <ItemStyle HorizontalAlign="Center" Width="50px" />
-                                </asp:TemplateField>
+                                
 
-                               
                             </Columns>
                             <FooterStyle BackColor="#B5C7DE" />
                             <HeaderStyle Font-Bold="True" ForeColor="#F7F7F7" />
@@ -129,7 +115,7 @@
             <asp:LinqDataSource ID="DataSourcePersona" runat="server"
                 ContextTypeName="UTTT.Ejemplo.Linq.Data.Entity.DcGeneralDataContext"
                 OnSelecting="DataSourcePersona_Selecting"
-                Select="new (strClaveProducto, strNombre, Precio,  CatTipo,id,  strDescripcion)"
+                Select="new (id, strUsuario, CatPerfil, CatStatus)"
                 TableName="Persona" EntityTypeName="">
             </asp:LinqDataSource>
         </form>

@@ -2,15 +2,13 @@
 #region Using
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Data.Linq;
 using System.Linq;
-using System.Web;
-using System.Web.UI;
+using System.Linq.Expressions;
 using System.Web.UI.WebControls;
 using UTTT.Ejemplo.Linq.Data.Entity;
-using System.Data.Linq;
-using System.Linq.Expressions;
-using System.Collections;
 using UTTT.Ejemplo.Persona.Control;
 using UTTT.Ejemplo.Persona.Control.Ctrl;
 
@@ -28,6 +26,8 @@ namespace UTTT.Ejemplo.Persona
         private DataContext dcGlobal = new DcGeneralDataContext();
         private int tipoAccion = 0;
         private int idDireccion = 0;
+        private string AntiguoUser = "";
+        private int idPerfil = 0;
 
         #endregion
 
@@ -45,6 +45,9 @@ namespace UTTT.Ejemplo.Persona
                 this.idDireccion = this.session.Parametros["idDireccion"] != null ?
                     int.Parse(this.session.Parametros["idDireccion"].ToString()) : 0;
 
+                this.idPerfil = this.session.Parametros["idPerfil"] != null ?
+                    int.Parse(this.session.Parametros["idPerfil"].ToString()) : 0;
+
                 if (this.idDireccion == 0)
                 {
                     this.baseEntity = new Linq.Data.Entity.Usuario();
@@ -54,6 +57,17 @@ namespace UTTT.Ejemplo.Persona
                 {
                     this.baseEntity = dcGlobal.GetTable<Linq.Data.Entity.Usuario>().First(c => c.Id == this.idDireccion);
                     this.tipoAccion = 2;
+                }
+
+                if (idPerfil > 0)
+                {
+                    var y = new Linq.Data.Entity.CatPerfil();
+                    using (var x = new DcGeneralDataContext())
+                    {
+                        y = x.CatPerfil.FirstOrDefault(c => c.Id == idPerfil);
+                    }
+                    this.lblPerfil.Text = y.strValor;
+                    this.lblPerfil.Visible = true;
                 }
 
                 if (!this.IsPostBack)
@@ -151,7 +165,7 @@ namespace UTTT.Ejemplo.Persona
 
                     String mensaje = String.Empty;
 
-                    if (direccion.strPassword=="" && direccion.strUsuario=="" && direccion.Status_id==-1 && direccion.perfil_id==-1)
+                    if (direccion.strPassword == "" && this.txtConfirm.Text == "" && direccion.strUsuario == "" && direccion.Status_id == -1 && direccion.perfil_id == -1)
                     {
                         this.btnCancelar_Click(sender, e);
                         return;
@@ -168,8 +182,15 @@ namespace UTTT.Ejemplo.Persona
 
                     dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Usuario>().InsertOnSubmit(direccion);
                     dcGuardar.SubmitChanges();
-                    this.showMessage("El registro se agrego correctamente.");                  
-                    this.Response.Redirect("~/Tomorrow/UsuarioManager.aspx");
+                    this.showMessage("El registro se agrego correctamente.");
+
+                    this.session.Pantalla = "~/Tomorrow/UsuarioManager.aspx";
+                    Hashtable parametrosRagion = new Hashtable();
+                    parametrosRagion.Add("idPerfil", idPerfil.ToString());
+                    parametrosRagion.Add("idPersona", this.idPersona.ToString());
+                    this.session.Parametros = parametrosRagion;
+                    this.Session["SessionManager"] = this.session;
+                    this.Response.Redirect(this.session.Pantalla, false);
                 }
                 if (this.idDireccion > 0)
                 {
@@ -187,6 +208,7 @@ namespace UTTT.Ejemplo.Persona
                     }
 
                     direccion = dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Usuario>().First(c => c.Id == this.idDireccion);
+                    this.AntiguoUser = direccion.strUsuario.ToString();
                     direccion.strPassword = this.txtCalle.Text.Trim();
                     direccion.strUsuario = this.txtColonia.Text.Trim();
                     direccion.perfil_id = x;
@@ -194,7 +216,7 @@ namespace UTTT.Ejemplo.Persona
 
                     String mensaje = String.Empty;
 
-                    if (direccion.strPassword == "" && direccion.strUsuario == "" && direccion.Status_id == -1 && direccion.perfil_id == -1)
+                    if (direccion.strPassword == "" && this.txtConfirm.Text == "" && direccion.strUsuario == "" && direccion.Status_id == -1 && direccion.perfil_id == -1)
                     {
                         this.btnCancelar_Click(sender, e);
                         return;
@@ -210,8 +232,16 @@ namespace UTTT.Ejemplo.Persona
                     direccion.strPassword = this.Encriptar(direccion.strPassword.ToString());
 
                     dcGuardar.SubmitChanges();
-                    this.showMessage("El registro se edito correctamente.");                   
-                    this.Server.Transfer("~/Tomorrow/UsuarioManager.aspx");
+                    this.showMessage("El registro se edito correctamente.");
+
+
+                    this.session.Pantalla = "~/Tomorrow/UsuarioManager.aspx";
+                    Hashtable parametrosRagion = new Hashtable();
+                    parametrosRagion.Add("idPerfil", idPerfil.ToString());
+                    parametrosRagion.Add("idPersona", this.idPersona.ToString());
+                    this.session.Parametros = parametrosRagion;
+                    this.Session["SessionManager"] = this.session;
+                    this.Response.Redirect(this.session.Pantalla, false);
 
                 }
             }
@@ -225,7 +255,13 @@ namespace UTTT.Ejemplo.Persona
         {
             try
             {
-                this.Response.Redirect("~/Tomorrow/UsuarioManager.aspx");               
+                this.session.Pantalla = "~/Tomorrow/UsuarioManager.aspx";
+                Hashtable parametrosRagion = new Hashtable();
+                parametrosRagion.Add("idPerfil", idPerfil.ToString());
+                parametrosRagion.Add("idPersona", this.idPersona.ToString());
+                this.session.Parametros = parametrosRagion;
+                this.Session["SessionManager"] = this.session;
+                this.Response.Redirect(this.session.Pantalla, false);
             }
             catch (Exception _e)
             {
@@ -286,10 +322,18 @@ namespace UTTT.Ejemplo.Persona
             Usuario userEx = new Usuario();
             Usuario emplEx = new Usuario();
 
-            using (var x = new DcGeneralDataContext())
+            if (this.AntiguoUser != _usuario.strUsuario.ToString())
             {
-                userEx = x.Usuario.FirstOrDefault(c=>c.strUsuario==_usuario.strUsuario);
-                emplEx = x.Usuario.FirstOrDefault(p => p.Empleado_id == this.idPersona);
+                using (var x = new DcGeneralDataContext())
+                {
+                    userEx = x.Usuario.FirstOrDefault(c => c.strUsuario == _usuario.strUsuario);
+                    emplEx = x.Usuario.FirstOrDefault(p => p.Empleado_id == this.idPersona);
+                }
+            }
+            else
+            {
+                userEx = null;
+                emplEx = null;
             }
 
             if (_usuario.strUsuario.Equals(string.Empty))
@@ -302,12 +346,12 @@ namespace UTTT.Ejemplo.Persona
                 _mensaje = "El Nombre de usuario debe rondar entre 5 y 10 caracteres";
                 return false;
             }
-            if (userEx != null && this.idDireccion == 0)
+            if (userEx != null)
             {
                 _mensaje = "Este Usuario ya se Encuentra en Uso";
                 return false;
             }
-            if(_usuario.strPassword != this.txtConfirm.Text)
+            if (_usuario.strPassword != this.txtConfirm.Text)
             {
                 _mensaje = "Las contraseñas no coinciden";
                 return false;
@@ -317,7 +361,7 @@ namespace UTTT.Ejemplo.Persona
                 _mensaje = "La contraseña no puede ir vacia";
                 return false;
             }
-            if(_usuario.strPassword.Length<8 || _usuario.strPassword.Length > 16)
+            if (_usuario.strPassword.Length < 8 || _usuario.strPassword.Length > 16)
             {
                 _mensaje = "La contraseña debe rondar entre 8 y 16 caracteres";
                 return false;

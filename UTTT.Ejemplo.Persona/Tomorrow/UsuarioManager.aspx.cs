@@ -47,6 +47,20 @@ namespace UTTT.Ejemplo.Persona
                 this.idPerfil = this.session.Parametros["idPerfil"] != null ?
                     int.Parse(this.session.Parametros["idPerfil"].ToString()) : 0;
 
+
+
+                if (idPerfil > 0)
+                {
+                    var y = new Linq.Data.Entity.CatPerfil();
+                    using (var x = new DcGeneralDataContext())
+                    {
+                        y = x.CatPerfil.FirstOrDefault(c => c.Id == idPerfil);
+                    }
+                    this.lblPerfil.Text = y.strValor;
+                    this.lblPerfil.Visible = true;
+                }
+
+
                 if (!this.IsPostBack)
                 {
                     this.baseEntity = dcGlobal.GetTable<Linq.Data.Entity.Empleado>().First(c => c.Id == this.idPersona);

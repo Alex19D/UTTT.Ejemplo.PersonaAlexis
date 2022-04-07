@@ -33,6 +33,8 @@ namespace UTTT.Ejemplo.Persona
         private UTTT.Ejemplo.Linq.Data.Entity.Producto baseEntity;
         private DataContext dcGlobal = new DcGeneralDataContext();
         private int tipoAccion = 0;
+        private string claveEditar="";
+        private int idPerfil=0;
 
         #endregion
 
@@ -47,6 +49,9 @@ namespace UTTT.Ejemplo.Persona
                 this.idEmpleado = this.session.Parametros["idEmpleado"] != null ?
                     int.Parse(this.session.Parametros["idEmpleado"].ToString()) : 0;
 
+                this.idPerfil = this.session.Parametros["idPerfil"] != null ?
+                    int.Parse(this.session.Parametros["idPerfil"].ToString()) : 0;
+
                 if (this.idEmpleado == 0)
                 {
                     this.baseEntity = new Linq.Data.Entity.Producto();
@@ -56,6 +61,17 @@ namespace UTTT.Ejemplo.Persona
                 {
                     this.baseEntity = dcGlobal.GetTable<Linq.Data.Entity.Producto>().First(c => c.Id == this.idEmpleado);
                     this.tipoAccion = 2;
+                }
+
+                if (idPerfil > 0)
+                {
+                    var y = new Linq.Data.Entity.CatPerfil();
+                    using (var x = new DcGeneralDataContext())
+                    {
+                        y = x.CatPerfil.FirstOrDefault(c => c.Id == idPerfil);
+                    }
+                    this.lblPerfil.Text = y.strValor;
+                    this.lblPerfil.Visible = true;
                 }
 
                 if (!this.IsPostBack)
@@ -86,7 +102,9 @@ namespace UTTT.Ejemplo.Persona
                         this.txtCurp.Text = this.baseEntity.strDescripcion;
                         this.txtPrecio.Text = this.baseEntity.Precio;
                         this.txtClaveUnica.Text = this.baseEntity.strClaveProducto;
-                        
+
+                        this.txtClaveUnica.Enabled = false;
+
                         this.ddlSexo.DataSource = lista;
                         this.ddlSexo.DataBind();
                         this.setItem(ref this.ddlSexo, baseEntity.CatTipo.strValor);
@@ -148,7 +166,14 @@ namespace UTTT.Ejemplo.Persona
                     dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Producto>().InsertOnSubmit(persona);
                     dcGuardar.SubmitChanges();
                     this.showMessage("El registro se agrego correctamente.");
-                    this.Response.Redirect("~/Tomorrow/ProductoPrincipal.aspx");
+
+
+                    this.session.Pantalla = "~/Tomorrow/ProductoPrincipal.aspx";
+                    Hashtable parametrosRagion = new Hashtable();
+                    parametrosRagion.Add("idPerfil", idPerfil.ToString());
+                    this.session.Parametros = parametrosRagion;
+                    this.Session["SessionManager"] = this.session;
+                    this.Response.Redirect(this.session.Pantalla, false);
                     
                 }
                 if (this.idEmpleado > 0)
@@ -160,7 +185,6 @@ namespace UTTT.Ejemplo.Persona
                     }
 
                     persona = dcGuardar.GetTable<UTTT.Ejemplo.Linq.Data.Entity.Producto>().First(c => c.Id == idEmpleado);
-                    persona.strClaveProducto = this.txtClaveUnica.Text.Trim();
                     persona.strNombre = this.txtNombre.Text.Trim();
                     persona.strDescripcion = this.txtCurp.Text.Trim();
                     persona.Tipo_id = x;
@@ -183,7 +207,14 @@ namespace UTTT.Ejemplo.Persona
                     }
                     dcGuardar.SubmitChanges();
                     this.showMessage("El registro se edito correctamente.");
-                    this.Response.Redirect("~/Tomorrow/ProductoPrincipal.aspx");
+
+                    this.session.Pantalla = "~/Tomorrow/ProductoPrincipal.aspx";
+                    Hashtable parametrosRagion = new Hashtable();
+                    parametrosRagion.Add("idPerfil", idPerfil.ToString());
+                    this.session.Parametros = parametrosRagion;
+                    this.Session["SessionManager"] = this.session;
+                    this.Response.Redirect(this.session.Pantalla, false);
+
                 }
             }
             catch (Exception _e)
@@ -195,8 +226,13 @@ namespace UTTT.Ejemplo.Persona
         protected void btnCancelar_Click(object sender, EventArgs e)
         {
             try
-            {              
-                this.Response.Redirect("~/Tomorrow/ProductoPrincipal.aspx");
+            {
+                this.session.Pantalla = "~/Tomorrow/ProductoPrincipal.aspx";
+                Hashtable parametrosRagion = new Hashtable();
+                parametrosRagion.Add("idPerfil", idPerfil.ToString());
+                this.session.Parametros = parametrosRagion;
+                this.Session["SessionManager"] = this.session;
+                this.Response.Redirect(this.session.Pantalla, false);
             }
             catch (Exception _e)
             {
@@ -245,6 +281,12 @@ namespace UTTT.Ejemplo.Persona
 
         public bool validacion(UTTT.Ejemplo.Linq.Data.Entity.Producto _persona, ref String _mensaje)
         {
+            Linq.Data.Entity.Producto producto = new Producto();
+            using(var x = new Linq.Data.Entity.DcGeneralDataContext())
+            {
+                producto = x.Producto.FirstOrDefault(c => c.strClaveProducto == _persona.strClaveProducto);
+            }
+
             if (_persona.Tipo_id == -1)
             {
                 _mensaje = "Seleccione Tipo de Producto";
@@ -270,6 +312,11 @@ namespace UTTT.Ejemplo.Persona
             if (int.Parse(_persona.strClaveProducto) < 100 || int.Parse(_persona.strClaveProducto) > 999)
             {
                 _mensaje = "La Clave Producto esta fuera de rango";
+                return false;
+            }
+            if (producto != null && idEmpleado==0)
+            {
+                _mensaje = "La clave de Producto esta siedo utilizada";
                 return false;
             }
             if (_persona.strNombre.Equals(String.Empty))

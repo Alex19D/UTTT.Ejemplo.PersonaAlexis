@@ -53,23 +53,38 @@
     </script>
 </head>
 <body>
-    <div class="col-md-12">
-        <nav class="navbar navbar-dark bg-dark">
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-expand navbar-dark bg-dark">
             <div class="container-fluid">
-                <span class="navbar-brand mb-0 h1">Persona</span>
+                <a class="navbar-brand">El Mañana</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" aria-current="page">
+                                <asp:Label ID="lblPerfil" runat="server" Text="..." Visible="False" ForeColor="White"></asp:Label>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link">Productos</a>
+                        </li>
+                    </ul>
+                </div>
             </div>
         </nav>
-    </div>
-    <section class="container-fluid">
+    </header>
+    <section class="container">
         <form id="form1" runat="server">
             <asp:ScriptManager ID="ScriptManager1" runat="server" EnablePageMethods="True">
              </asp:ScriptManager>
             <div class="row">
                 <div class="col-6">
-                    <center>
-                        <asp:Label ID="lblAccion" runat="server" Text="Accion" Font-Bold="True"></asp:Label>
-                        <p></p>
-                    </center>
+                    <p></p>
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    <asp:Label ID="lblAccion" runat="server" Text="Accion" Font-Bold="True"></asp:Label>
+                    <p></p>
                 </div>
                 <div class="col col-6"></div>
             </div>
@@ -136,7 +151,7 @@
                         </asp:TextBox>
                     </div>
                     <div class="col-12 col-xl-8">
-                        &nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <asp:RangeValidator
                             ID="rvPrecio" runat="server" ControlToValidate="txtPrecio" ErrorMessage="*El Precio debe de estar entre 3 y 999"
                             MaximumValue="999" MinimumValue="3" Type="Integer">

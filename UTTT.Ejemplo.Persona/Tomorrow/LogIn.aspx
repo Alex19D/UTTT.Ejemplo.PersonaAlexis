@@ -24,6 +24,8 @@
             <!-- button -->
             <asp:Button ID="btnAceptar" runat="server" Text="Aceptar" OnClick="btnAceptar_Click" />
         </form>
+         <a href="RecuperarPrincipal.aspx">¿Perdieste tu Contraseña? ¡¡¡Recuperala ahora!!!</a><br/><br/>
+        <a><asp:Label ID="lblMensaje" runat="server" ForeColor="Red" Text="* Aqui va el error" Visible="false"></asp:Label></a>
     </div>
 </body>
 </html>
