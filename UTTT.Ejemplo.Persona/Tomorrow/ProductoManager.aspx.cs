@@ -358,15 +358,15 @@ namespace UTTT.Ejemplo.Persona
                 _mensaje = "El Precio esta Vacio";
                 return false;
             }
-            i = 0;
+            double j = 0;
 
-            if (int.TryParse(_persona.Precio, out i) == false)
+            if (double.TryParse(_persona.Precio, out j) == false)
             {
                 _mensaje = "El Precio no es un número";
                 return false;
             }
 
-            if (int.Parse(_persona.Precio) < 3 || int.Parse(_persona.Precio) > 999)
+            if (double.Parse(_persona.Precio) < 3 || double.Parse(_persona.Precio) > 999)
             {
                 _mensaje = "La Clave Producto esta fuera de rango";
                 return false;
@@ -384,6 +384,22 @@ namespace UTTT.Ejemplo.Persona
                 _mensaje = "Los caracteres permitidos para Descripcion rebasan lo establecido de 50";
                 return false;
             }
+
+            i = 0;
+            //Verificar si un texto es un número
+            if (int.TryParse(_persona.Precio, out i) == true)
+            {
+                string nP = "" + int.Parse(_persona.Precio.ToString());
+                _persona.Precio=nP;
+            }
+            j = 0;
+
+            if (double.TryParse(_persona.Precio, out j) == true)
+            {
+                string nP = "" + double.Parse(_persona.Precio.ToString());
+                _persona.Precio = nP;
+            }
+
             return true;
 
         }

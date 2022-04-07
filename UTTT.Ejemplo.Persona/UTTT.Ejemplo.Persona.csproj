@@ -114,6 +114,7 @@
     <Content Include="Images\Pixir-1-1-300x181.png" />
     <Content Include="Images\printrecord_16x16.png" />
     <Content Include="Images\user.png" />
+    <Content Include="index.html" />
     <Content Include="javaScripFile.js" />
     <Content Include="javaScripPage.aspx" />
     <Content Include="Tomorrow\AccesoDenegado.aspx" />

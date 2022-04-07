@@ -17,6 +17,23 @@
             }
         }
 
+        function validaDouble(eevent) {
+            key = e.keyCode || e.which;
+            tecla = String.fromCharCode(key).toLowerCase();
+            letras = "0123456789. ";
+            especiales = "8-37-39-46";
+            tecla_especial = false;
+            for (var i in especiales) {
+                if (key == especiales[i]) {
+                    tecla_especial = true;
+                    break;
+                }
+            }
+            if (letras.indexOf(tecla) == -1 && !tecla_especial) {
+                return false;
+            }
+        }
+
         function validaLetras(e) {
             key = e.keyCode || e.which;
             tecla = String.fromCharCode(key).toLowerCase();
@@ -147,14 +164,14 @@
                     <div class="col-2">
                         <asp:TextBox ID="txtPrecio" runat="server"
                             Width="210px" ViewStateMode="Disabled"
-                            onkeypress="return validaNumeros(event);" MaxLength="3">
+                            onkeypress="return validaDouble(event);" MaxLength="6">
                         </asp:TextBox>
                     </div>
                     <div class="col-12 col-xl-8">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <asp:RangeValidator
-                            ID="rvPrecio" runat="server" ControlToValidate="txtPrecio" ErrorMessage="*El Precio debe de estar entre 3 y 999"
-                            MaximumValue="999" MinimumValue="3" Type="Integer">
+                            ID="rvPrecio" runat="server" ControlToValidate="txtPrecio" ErrorMessage="*El Precio debe de estar entre 3 y 999.99"
+                            MaximumValue="999.99" MinimumValue="3" Type="Double">
                         </asp:RangeValidator>
                     </div>
 

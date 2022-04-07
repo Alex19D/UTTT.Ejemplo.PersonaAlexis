@@ -138,8 +138,8 @@
                     <div class="col-12 col-xl-8">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <asp:RegularExpressionValidator ID="revAPaterno" runat="server" ControlToValidate="txtAPaterno" ErrorMessage="*El APaterno debe comenzar 
-                            en Mayusculas seguido de minusculas con un rango de 5-12 Letras"
-                            ValidationExpression="(([(Á,É,Í,Ó,Ú)(A-Z)])(([(a-z)(á,é,í,ó,ú)]){4,11}))">
+                            en Mayusculas seguido de minusculas con un rango de 3-12 Letras"
+                            ValidationExpression="(([(Á,É,Í,Ó,Ú)(A-Z)])(([(a-z)(á,é,í,ó,ú)]){2,11}))">
                         </asp:RegularExpressionValidator>
                     </div>
 
@@ -154,8 +154,8 @@
                     <div class="col-12 col-xl-8">
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <asp:RegularExpressionValidator ID="revAMaterno" runat="server" ControlToValidate="txtAMaterno" ErrorMessage="*El AMaterno debe comenzar en 
-                            Mayusculas seguido de minusculas con un rango de 5-12 Letras"
-                            ValidationExpression="(([(Á,É,Í,Ó,Ú)(A-Z)])(([(a-z)(á,é,í,ó,ú)]){4,11}))">
+                            Mayusculas seguido de minusculas con un rango de 3-12 Letras"
+                            ValidationExpression="(([(Á,É,Í,Ó,Ú)(A-Z)])(([(a-z)(á,é,í,ó,ú)]){2,11}))">
                         </asp:RegularExpressionValidator>
                     </div>
 
