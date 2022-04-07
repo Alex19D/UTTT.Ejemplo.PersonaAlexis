@@ -47,6 +47,17 @@ namespace UTTT.Ejemplo.Persona
                 this.idPerfil = this.session.Parametros["idPerfil"] != null ?
                     int.Parse(this.session.Parametros["idPerfil"].ToString()) : 0;
 
+                if (!(idPerfil == 1 || idPerfil == 4))
+                {
+                    Hashtable parametrosRagion = new Hashtable();
+                    parametrosRagion.Add("idPerfil", idPerfil.ToString());
+                    this.session.Parametros = parametrosRagion;
+                    this.Session["SessionManager"] = this.session;
+                    this.session.Pantalla = String.Empty;
+                    this.session.Pantalla = "~/Tomorrow/AccesoDenegado.aspx";
+                    this.Response.Redirect(this.session.Pantalla, false);
+                }
+
                 if (idPerfil > 0)
                 {
                     var y = new Linq.Data.Entity.CatPerfil();

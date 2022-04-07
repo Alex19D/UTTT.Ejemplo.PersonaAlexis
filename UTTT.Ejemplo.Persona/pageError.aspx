@@ -14,7 +14,7 @@
         </div>
         <div>
             <img src="https://image.freepik.com/free-vector/error-404-page-found-page-found-text-oops-looks-like-something-went-wrong_143407-2.jpg"
-                width="1350" height="500">
+                width="1350" height="500"/>
         </div>
     </form>
 </body>

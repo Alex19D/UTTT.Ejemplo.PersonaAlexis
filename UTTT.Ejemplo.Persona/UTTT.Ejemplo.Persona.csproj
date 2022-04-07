@@ -116,6 +116,7 @@
     <Content Include="Images\user.png" />
     <Content Include="javaScripFile.js" />
     <Content Include="javaScripPage.aspx" />
+    <Content Include="Tomorrow\AccesoDenegado.aspx" />
     <Content Include="Tomorrow\RecuperarManager.aspx" />
     <Content Include="Tomorrow\RecuperarPrincipal.aspx" />
     <Content Include="Tomorrow\UsuarioExtraManager.aspx" />
@@ -187,6 +188,13 @@
     </Compile>
     <Compile Include="javaScripPage.aspx.designer.cs">
       <DependentUpon>javaScripPage.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Tomorrow\AccesoDenegado.aspx.cs">
+      <DependentUpon>AccesoDenegado.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Tomorrow\AccesoDenegado.aspx.designer.cs">
+      <DependentUpon>AccesoDenegado.aspx</DependentUpon>
     </Compile>
     <Compile Include="Tomorrow\RecuperarManager.aspx.cs">
       <DependentUpon>RecuperarManager.aspx</DependentUpon>
